@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UsuarioRepository extends CrudRepository<UsuarioModel, Long> {
-    public abstract ArrayList<UsuarioModel> findByContraseña(Integer contraseña);
+    ArrayList<UsuarioModel> findByPassword(Integer password);
 
+    UsuarioModel findByEmail(String email);
+
+    UsuarioModel findByUsername(String username);
+
+    UsuarioModel findByPassword(String password);
 }

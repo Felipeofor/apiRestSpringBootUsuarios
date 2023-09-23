@@ -11,16 +11,16 @@ public class UsuarioModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String nombre;
+    private String username;
     private String email;
-    private String contraseña;
+    private String password;
 
-    public void setcontraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getcontraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
     public Long getId() {
@@ -31,12 +31,12 @@ public class UsuarioModel {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

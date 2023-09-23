@@ -26,8 +26,8 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
-    public ArrayList<UsuarioModel> obtenerPorContraseña(Integer contraseña) {
-        return usuarioRepository.findByContraseña(contraseña);
+    public ArrayList<UsuarioModel> obtenerPorPassword(Integer password) {
+        return usuarioRepository.findByPassword(password);
     }
 
     public boolean eliminarUsuario(Long id) {
@@ -37,6 +37,18 @@ public class UsuarioService {
         } catch (Exception err) {
             return false;
         }
+    }
+
+    public UsuarioModel findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
+    public UsuarioModel findByUsername(String username) {
+        return usuarioRepository.findByUsername(username);
+    }
+
+    public UsuarioModel findByPassword(String password) {
+        return usuarioRepository.findByPassword(password);
     }
 
 }
