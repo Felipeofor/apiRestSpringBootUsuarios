@@ -17,11 +17,13 @@ public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
 
+    @CrossOrigin(origins = "*")
     @GetMapping()
     public ArrayList<UsuarioModel> obtenerUsuarios() {
         return usuarioService.obtenerUsuarios();
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping()
     public ResponseEntity<String> loginUser(@RequestBody UsuarioModel usuario) {
         String email = usuario.getEmail();
@@ -48,6 +50,7 @@ public class UsuarioController {
                 .body("Inicio de sesión exitoso");
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UsuarioModel usuario) {
         // Verificar si el formato del correo electrónico es válido
@@ -84,11 +87,13 @@ public class UsuarioController {
         return email.matches(regex);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path = "/{id}")
     public Optional<UsuarioModel> obtenerUsuarioPorId(@PathVariable Long id) {
         return this.usuarioService.obtenerPorId(id);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping(path = "/{id}")
     public String eliminarPorId(@PathVariable Long id) {
         boolean ok = this.usuarioService.eliminarUsuario(id);
