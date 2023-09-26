@@ -20,11 +20,19 @@ public class ClienteModel {
 
     private String fullName;
     private String email;
-    private Date dataOfBirth;
+    private Date dateOfBirth;
     private Date dateOfInscription;
     private Long age;
     private String phone;
     private String emergencyNumber;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -42,12 +50,12 @@ public class ClienteModel {
         return this.email;
     }
 
-    public void setDataOfBirth(Date dataOfBirth) {
-        this.dataOfBirth = dataOfBirth;
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public Date getDataOfBirth() {
-        return this.dataOfBirth;
+    public Date getDateOfBirth() {
+        return this.dateOfBirth;
     }
 
     public void setDateOfInscription(Date dataOfInscription) {
@@ -58,8 +66,8 @@ public class ClienteModel {
         return this.dateOfInscription;
     }
 
-    public void setAge(Long age) {
-        this.age = age;
+    public void setAge(Integer age) {
+        this.age = age != null ? age.longValue() : null;
     }
 
     public Long getAge() {
@@ -80,8 +88,5 @@ public class ClienteModel {
 
     public String getEmergencyNumber() {
         return emergencyNumber;
-    }
-
-    public void setId(Long id2) {
     }
 }

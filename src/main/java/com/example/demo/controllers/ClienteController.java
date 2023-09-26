@@ -5,6 +5,7 @@ import com.example.demo.services.ClienteService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/clientes")
@@ -31,9 +32,9 @@ public class ClienteController {
         return clienteService.createCliente(cliente);
     }
 
-    @PutMapping("/{id}")
-    public ClienteModel updateCliente(@PathVariable Long id, @RequestBody ClienteModel cliente) {
-        return clienteService.updateCliente(id, cliente);
+    @PatchMapping("/{id}")
+    public ClienteModel updateCliente(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        return clienteService.patchCliente(id, updates);
     }
 
     @DeleteMapping("/{id}")
