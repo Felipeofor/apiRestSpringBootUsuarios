@@ -48,7 +48,7 @@ public class UsuarioModel {
     }
 
     public String getUsername() {
-        return null;
+        return userName;
     }
 
 }

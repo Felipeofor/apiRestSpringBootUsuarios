@@ -23,6 +23,8 @@ public class ClienteModel {
     private Date dataOfBirth;
     private Date dateOfInscription;
     private Long age;
+    private String phone;
+    private String emergencyNumber;
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
@@ -62,5 +64,24 @@ public class ClienteModel {
 
     public Long getAge() {
         return this.age;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setEmergencyNumber(String emergencyNumber) {
+        this.emergencyNumber = emergencyNumber;
+    }
+
+    public String getEmergencyNumber() {
+        return emergencyNumber;
+    }
+
+    public void setId(Long id2) {
     }
 }
