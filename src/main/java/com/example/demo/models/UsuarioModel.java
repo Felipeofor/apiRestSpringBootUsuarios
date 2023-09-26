@@ -3,7 +3,7 @@ package com.example.demo.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "users")
 public class UsuarioModel {
 
     @Id
@@ -11,7 +11,7 @@ public class UsuarioModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String username;
+    private String userName;
     private String email;
     private String password;
 
@@ -31,12 +31,12 @@ public class UsuarioModel {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -45,6 +45,10 @@ public class UsuarioModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUsername() {
+        return null;
     }
 
 }

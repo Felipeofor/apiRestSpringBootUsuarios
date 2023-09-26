@@ -44,7 +44,7 @@ public class UsuarioService {
     }
 
     public UsuarioModel findByUsername(String username) {
-        return usuarioRepository.findByUsername(username);
+        return usuarioRepository.findByUserName(username);
     }
 
     public UsuarioModel findByPassword(String password) {
