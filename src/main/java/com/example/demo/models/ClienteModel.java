@@ -28,7 +28,7 @@ public class ClienteModel {
     private String phone;
     private String emergencyNumber;
     private Date nextDueDate;
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     public Long getId() {
         return id;
@@ -56,6 +56,7 @@ public class ClienteModel {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+        this.calculateNextDueDate();
     }
 
     public Date getDateOfBirth() {

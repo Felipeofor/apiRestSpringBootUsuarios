@@ -89,6 +89,13 @@ public class ClienteService {
                 case "emergencyNumber":
                     cliente.setEmergencyNumber((String) value);
                     break;
+                case "active":
+                    if (value instanceof Boolean) {
+                        cliente.setActive((Boolean) value);
+                    } else {
+                        throw new IllegalArgumentException("El campo 'active' debe ser un valor booleano");
+                    }
+                    break;
                 // Agregar más casos según los campos que deseas permitir actualizar
                 default:
                     // Manejar campos desconocidos o no permitidos
