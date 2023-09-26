@@ -1,12 +1,14 @@
 package com.example.demo.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +27,8 @@ public class ClienteModel {
     private Long age;
     private String phone;
     private String emergencyNumber;
+    private Date nextDueDate;
+    private Boolean isActive;
 
     public Long getId() {
         return id;
@@ -88,5 +92,42 @@ public class ClienteModel {
 
     public String getEmergencyNumber() {
         return emergencyNumber;
+    }
+
+    public Date getNextDueDate() {
+        return nextDueDate;
+    }
+
+    public void setNextDueDate(Date nextDueDate) {
+        this.nextDueDate = nextDueDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+        if (isActive) {
+            this.updateNextDueDate();
+        }
+    }
+
+    // Método para calcular la fecha de vencimiento automáticamente al crear un
+    // nuevo cliente
+    @PrePersist
+    public void calculateNextDueDate() {
+        if (dateOfInscription != null) {
+            LocalDate inscriptionDate = dateOfInscription.toLocalDate();
+            LocalDate nextDueDate = inscriptionDate.plusMonths(1);
+            this.nextDueDate = Date.valueOf(nextDueDate);
+        }
+    }
+
+    // Método para actualizar la fecha de vencimiento basada en la fecha actual
+    public void updateNextDueDate() {
+        LocalDate currentDate = LocalDate.now();
+        LocalDate nextDueDate = currentDate.plusMonths(1);
+        this.nextDueDate = Date.valueOf(nextDueDate);
     }
 }
