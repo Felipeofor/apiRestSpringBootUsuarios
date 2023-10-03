@@ -1,7 +1,5 @@
 package com.example.demo.models;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -19,10 +17,10 @@ public class EjerciciosModel {
     private Long series;
     private Long repeticiones;
     private String descripcion;
-    private String imagen;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<EjerciciosModel> ejercicios;
+    @ManyToOne // Many EjerciciosModel belong to one EjerciciosContainerModel
+    @JoinColumn(name = "container_id") // This should match the actual column name in the database
+    private EjerciciosContainerModel container;
 
     public String getTipo() {
         return tipo;
@@ -60,7 +58,7 @@ public class EjerciciosModel {
         return repeticiones;
     }
 
-    public void setRepeticiones(Long repeticiones) {
+        public void setRepeticiones(Long repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -68,23 +66,8 @@ public class EjerciciosModel {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
+        public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public List<EjerciciosModel> getEjercicios() {
-        return ejercicios;
-    }
-
-    public void setEjercicios(List<EjerciciosModel> ejercicios) {
-        this.ejercicios = ejercicios;
-    }
+    
 }
