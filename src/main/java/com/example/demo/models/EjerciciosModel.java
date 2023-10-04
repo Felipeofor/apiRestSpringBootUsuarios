@@ -18,9 +18,18 @@ public class EjerciciosModel {
     private Long repeticiones;
     private String descripcion;
 
-    @ManyToOne // Many EjerciciosModel belong to one EjerciciosContainerModel
-    @JoinColumn(name = "container_id") // This should match the actual column name in the database
+    @ManyToOne
+    @JoinColumn(name = "container_id")
     private EjerciciosContainerModel container;
+
+    // Getter y Setter para container
+    public EjerciciosContainerModel getContainer() {
+        return container;
+    }
+
+    public void setContainer(EjerciciosContainerModel container) {
+        this.container = container;
+    }
 
     public String getTipo() {
         return tipo;

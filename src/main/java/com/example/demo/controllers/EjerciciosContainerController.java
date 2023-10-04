@@ -1,12 +1,15 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.EjerciciosContainerModel;
+import com.example.demo.models.EjerciciosModel;
 import com.example.demo.services.EjerciciosContainerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/ejercicioscontainer")
@@ -15,13 +18,14 @@ public class EjerciciosContainerController {
     private EjerciciosContainerService ejerciciosContainerService;
 
     // Método para obtener un EjerciciosContainer por su ID
-    @GetMapping("/{id}")
-    public ResponseEntity<EjerciciosContainerModel> getEjerciciosContainer(@PathVariable Long id) {
+    @GetMapping("/{id}/ejercicios")
+    public ResponseEntity<List<EjerciciosModel>> getEjerciciosByContainerId(@PathVariable Long id) {
         EjerciciosContainerModel container = ejerciciosContainerService.getEjerciciosContainerById(id);
         if (container != null) {
-            return ResponseEntity.ok(container);
+            List<EjerciciosModel> ejercicios = container.getEjercicios(); // Obtener la lista de ejercicios desde el contenedor
+            return ResponseEntity.ok(ejercicios);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build(); // Container not found
         }
     }
 

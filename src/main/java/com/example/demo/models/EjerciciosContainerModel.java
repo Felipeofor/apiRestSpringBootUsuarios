@@ -16,8 +16,9 @@ public class EjerciciosContainerModel {
     private String titulo;
     private String imagen;
     
-    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "container", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<EjerciciosModel> ejercicios = new ArrayList<>();
+    
     // Constructor por defecto
     public EjerciciosContainerModel() {
         // Inicializa la lista de ejercicios si es necesario
