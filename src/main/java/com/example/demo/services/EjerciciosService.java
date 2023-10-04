@@ -30,8 +30,7 @@ public class EjerciciosService {
         Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
             EjerciciosModel ejercicio = ejercicioOptional.get();
-            ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
-            ejercicio.setTipo(updatedEjercicio.getTipo());
+            ejercicio.setName(updatedEjercicio.getName());
             ejercicio.setSeries(updatedEjercicio.getSeries());
             ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
             ejercicio.setDescripcion(updatedEjercicio.getDescripcion());

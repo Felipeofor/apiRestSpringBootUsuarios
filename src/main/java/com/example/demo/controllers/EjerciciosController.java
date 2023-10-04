@@ -48,8 +48,7 @@ public class EjerciciosController {
         if (existingEjercicio.isPresent()) {
             EjerciciosModel updatedEjercicio = existingEjercicio.get();
             // Actualiza los campos del ejercicio con los valores proporcionados en el cuerpo de la solicitud
-            updatedEjercicio.setEjercicioName(ejercicio.getEjercicioName());
-            updatedEjercicio.setTipo(ejercicio.getTipo());
+            updatedEjercicio.setName(ejercicio.getName());
             updatedEjercicio.setSeries(ejercicio.getSeries());
             updatedEjercicio.setRepeticiones(ejercicio.getRepeticiones());
             updatedEjercicio.setDescripcion(ejercicio.getDescripcion());

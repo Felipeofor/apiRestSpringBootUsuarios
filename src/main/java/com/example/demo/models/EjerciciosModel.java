@@ -12,8 +12,7 @@ public class EjerciciosModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String ejercicioName;
-    private String tipo;
+    private String name;
     private Long series;
     private Long repeticiones;
     private String descripcion;
@@ -31,14 +30,6 @@ public class EjerciciosModel {
         this.container = container;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public Long getId() {
         return id;
     }
@@ -47,12 +38,12 @@ public class EjerciciosModel {
         this.id = id;
     }
 
-    public String getEjercicioName() {
-        return ejercicioName;
+    public String getName() {
+        return name;
     }
 
-    public void setEjercicioName(String ejercicioName) {
-        this.ejercicioName = ejercicioName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getSeries() {

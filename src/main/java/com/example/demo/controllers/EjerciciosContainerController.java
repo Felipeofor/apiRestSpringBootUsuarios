@@ -19,11 +19,11 @@ public class EjerciciosContainerController {
 
     // Método para obtener un EjerciciosContainer por su ID
     @GetMapping("/{id}/ejercicios")
-    public ResponseEntity<List<EjerciciosModel>> getEjerciciosByContainerId(@PathVariable Long id) {
+    public ResponseEntity<EjerciciosContainerModel> getEjerciciosByContainerId(@PathVariable Long id) {
         EjerciciosContainerModel container = ejerciciosContainerService.getEjerciciosContainerById(id);
         if (container != null) {
             List<EjerciciosModel> ejercicios = container.getEjercicios(); // Obtener la lista de ejercicios desde el contenedor
-            return ResponseEntity.ok(ejercicios);
+            return ResponseEntity.ok(container);
         } else {
             return ResponseEntity.notFound().build(); // Container not found
         }
