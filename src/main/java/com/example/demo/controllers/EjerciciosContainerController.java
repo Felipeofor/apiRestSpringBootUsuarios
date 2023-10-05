@@ -1,64 +1,69 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.EjerciciosContainerModel;
-import com.example.demo.models.EjerciciosModel;
-import com.example.demo.services.EjerciciosContainerService;
+import com.example.demo.repositories.EjerciciosContainerRepository;
+import  com.example.demo.models.EjerciciosContainerModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/ejercicioscontainer")
 public class EjerciciosContainerController {
     @Autowired
-    private EjerciciosContainerService ejerciciosContainerService;
+    private EjerciciosContainerRepository ejerciciosContainerRepository;
 
-    // Método para obtener un EjerciciosContainer por su ID
-    @GetMapping("/{id}/ejercicios")
-    public ResponseEntity<EjerciciosContainerModel> getEjerciciosByContainerId(@PathVariable Long id) {
-        EjerciciosContainerModel container = ejerciciosContainerService.getEjerciciosContainerById(id);
-        if (container != null) {
-            List<EjerciciosModel> ejercicios = container.getEjercicios(); // Obtener la lista de ejercicios desde el contenedor
-            return ResponseEntity.ok(container);
-        } else {
-            return ResponseEntity.notFound().build(); // Container not found
-        }
-    }
-
-    // Método para crear un nuevo EjerciciosContainer
-    @PostMapping
-    public ResponseEntity<EjerciciosContainerModel> createEjerciciosContainer(
-            @RequestBody EjerciciosContainerModel container) {
-        EjerciciosContainerModel createdContainer = ejerciciosContainerService.createEjerciciosContainer(container);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdContainer);
-    }
-
-    // Método para actualizar un EjerciciosContainer por su ID
-    @PatchMapping("/{id}")
-    public ResponseEntity<EjerciciosContainerModel> updateEjerciciosContainer(@PathVariable Long id,
-            @RequestBody EjerciciosContainerModel container) {
-        EjerciciosContainerModel updatedContainer = ejerciciosContainerService.updateEjerciciosContainer(id, container);
-        if (updatedContainer != null) {
-            return ResponseEntity.ok(updatedContainer);
+    // Endpoint para obtener un registro de EjerciciosContainer por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<EjerciciosContainerModel> getEjerciciosContainer(@PathVariable Long id) {
+        Optional<EjerciciosContainerModel> ejerciciosContainer = ejerciciosContainerRepository.findById(id);
+        if (ejerciciosContainer.isPresent()) {
+            return ResponseEntity.ok(ejerciciosContainer.get());
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    // Método para eliminar un EjerciciosContainer por su ID
+    // Endpoint para crear un nuevo registro de EjerciciosContainer
+    @PostMapping
+    public ResponseEntity<EjerciciosContainerModel> createEjerciciosContainer(
+            @RequestBody EjerciciosContainerModel ejerciciosContainer) {
+        EjerciciosContainerModel savedContainer = ejerciciosContainerRepository.save(ejerciciosContainer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedContainer);
+    }
+
+    // Endpoint para actualizar un registro de EjerciciosContainer por ID
+    @PatchMapping("/{id}")
+    public ResponseEntity<EjerciciosContainerModel> updateEjerciciosContainer(@PathVariable Long id,
+            @RequestBody EjerciciosContainerModel updatedContainer) {
+        Optional<EjerciciosContainerModel> existingContainer = ejerciciosContainerRepository.findById(id);
+        if (existingContainer.isPresent()) {
+            EjerciciosContainerModel containerToUpdate = existingContainer.get();
+            // Actualizar los campos necesarios de containerToUpdate con los valores de
+            // updatedContainer
+            // Por ejemplo, si deseas actualizar el título:
+            // containerToUpdate.setTitulo(updatedContainer.getTitulo());
+            // Continúa con las actualizaciones necesarias
+            EjerciciosContainerModel savedContainer = ejerciciosContainerRepository.save(containerToUpdate);
+            return ResponseEntity.ok(savedContainer);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Endpoint para eliminar un registro de EjerciciosContainer por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEjerciciosContainer(@PathVariable Long id) {
-        boolean deleted = ejerciciosContainerService.deleteEjerciciosContainer(id);
-        if (deleted) {
+        Optional<EjerciciosContainerModel> ejerciciosContainer = ejerciciosContainerRepository.findById(id);
+        if (ejerciciosContainer.isPresent()) {
+            ejerciciosContainerRepository.deleteById(id);
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
-    // Otros métodos que puedas necesitar para tu aplicación
 }

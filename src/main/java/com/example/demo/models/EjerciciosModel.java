@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ejercicios")
-
 public class EjerciciosModel {
 
     @Id
@@ -12,24 +11,13 @@ public class EjerciciosModel {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String name;
+    private String titulo;
     private Long series;
     private Long repeticiones;
     private String descripcion;
 
-    @ManyToOne
-    @JoinColumn(name = "container_id")
-    private EjerciciosContainerModel container;
 
-    // Getter y Setter para container
-    public EjerciciosContainerModel getContainer() {
-        return container;
-    }
-
-    public void setContainer(EjerciciosContainerModel container) {
-        this.container = container;
-    }
-
+    
     public Long getId() {
         return id;
     }
@@ -38,12 +26,12 @@ public class EjerciciosModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public Long getSeries() {
@@ -58,7 +46,7 @@ public class EjerciciosModel {
         return repeticiones;
     }
 
-        public void setRepeticiones(Long repeticiones) {
+    public void setRepeticiones(Long repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -66,8 +54,7 @@ public class EjerciciosModel {
         return descripcion;
     }
 
-        public void setDescripcion(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
 }
