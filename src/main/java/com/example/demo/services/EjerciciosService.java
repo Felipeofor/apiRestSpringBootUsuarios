@@ -10,43 +10,20 @@ import java.util.Optional;
 
 @Service
 public class EjerciciosService {
-
     @Autowired
     private EjerciciosRepository ejerciciosRepository;
 
-    public List<EjerciciosModel> getAllEjercicios() {
-        return ejerciciosRepository.findAll();
-    }
-
-    public Optional<EjerciciosModel> getEjercicioById(Long id) {
+    public Optional<EjerciciosModel> findById(Long id) {
         return ejerciciosRepository.findById(id);
     }
 
-    public EjerciciosModel createEjercicio(EjerciciosModel ejercicio) {
-        return ejerciciosRepository.save(ejercicio);
+    public List<EjerciciosModel> findAllByTitulo(String titulo) {
+        return ejerciciosRepository.findAllByTitulo(titulo);
     }
 
-    public Optional<EjerciciosModel> updateEjercicio(Long id, EjerciciosModel updatedEjercicio) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
-        if (ejercicioOptional.isPresent()) {
-            EjerciciosModel ejercicio = ejercicioOptional.get();
-            ejercicio.setTitulo(updatedEjercicio.getTitulo());
-            ejercicio.setSeries(updatedEjercicio.getSeries());
-            ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
-            ejercicio.setDescripcion(updatedEjercicio.getDescripcion());
-            return Optional.of(ejerciciosRepository.save(ejercicio));
-        } else {
-            return Optional.empty();
-        }
+    public EjerciciosModel save(EjerciciosModel ejerciciosModel) {
+        return ejerciciosRepository.save(ejerciciosModel);
     }
 
-    public boolean deleteEjercicio(Long id) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
-        if (ejercicioOptional.isPresent()) {
-            ejerciciosRepository.deleteById(id);
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // Agrega otros métodos según tus necesidades (actualización, eliminación, búsqueda, etc.)
 }

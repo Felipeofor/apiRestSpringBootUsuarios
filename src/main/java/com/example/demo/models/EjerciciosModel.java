@@ -16,7 +16,17 @@ public class EjerciciosModel {
     private Long repeticiones;
     private String descripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "container_id")
+    private EjerciciosContainerModel ejerciciosContainer;
 
+    public EjerciciosContainerModel getEjerciciosContainer() {
+        return ejerciciosContainer;
+    }
+
+    public void setEjerciciosContainer(EjerciciosContainerModel ejerciciosContainer) {
+        this.ejerciciosContainer = ejerciciosContainer;
+    }
     
     public Long getId() {
         return id;

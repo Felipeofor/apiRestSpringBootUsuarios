@@ -18,11 +18,11 @@ public class EjerciciosContainerController {
     private EjerciciosContainerRepository ejerciciosContainerRepository;
 
     // Endpoint para obtener un registro de EjerciciosContainer por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<EjerciciosContainerModel> getEjerciciosContainer(@PathVariable Long id) {
-        Optional<EjerciciosContainerModel> ejerciciosContainer = ejerciciosContainerRepository.findById(id);
-        if (ejerciciosContainer.isPresent()) {
-            return ResponseEntity.ok(ejerciciosContainer.get());
+    @GetMapping("/containerPorTitulo/{titulo}")
+    public ResponseEntity<EjerciciosContainerModel> getContainerPorTitulo(@PathVariable String titulo) {
+        Optional<EjerciciosContainerModel> container = ejerciciosContainerRepository.findByTitulo(titulo);
+        if (container.isPresent()) {
+            return ResponseEntity.ok(container.get());
         } else {
             return ResponseEntity.notFound().build();
         }

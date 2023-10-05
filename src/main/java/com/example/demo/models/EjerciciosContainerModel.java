@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -13,6 +14,8 @@ public class EjerciciosContainerModel {
     private String titulo;
     private String imagen;
 
+    @OneToMany(mappedBy = "ejerciciosContainer", cascade = CascadeType.ALL)
+    private List<EjerciciosModel> ejercicios;
 
     // Getter y Setter para id
     public Long getId() {

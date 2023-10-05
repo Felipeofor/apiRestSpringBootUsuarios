@@ -5,36 +5,20 @@ import com.example.demo.repositories.EjerciciosContainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EjerciciosContainerService {
-
-    private final EjerciciosContainerRepository ejercicioContainerRepository;
-
-
     @Autowired
-    public EjerciciosContainerService(EjerciciosContainerRepository ejercicioContainerRepository) {
-        this.ejercicioContainerRepository = ejercicioContainerRepository;
-    }
-    
-    public Optional<EjerciciosContainerModel> getEjercicioContainerById(Long id) {
-        return ejercicioContainerRepository.findById(id);
+    private EjerciciosContainerRepository ejerciciosContainerRepository;
+
+    public Optional<EjerciciosContainerModel> findById(Long id) {
+        return ejerciciosContainerRepository.findById(id);
     }
 
-    public EjerciciosContainerModel createEjercicioContainer(EjerciciosContainerModel ejercicioContainer) {
-        return ejercicioContainerRepository.save(ejercicioContainer);
+    public EjerciciosContainerModel save(EjerciciosContainerModel ejerciciosContainer) {
+        return ejerciciosContainerRepository.save(ejerciciosContainer);
     }
 
-    public void deleteEjercicioContainerById(Long id) {
-        ejercicioContainerRepository.deleteById(id);
-    }
-
-    public List<EjerciciosContainerModel> getAllEjercicioContainers() {
-        return ejercicioContainerRepository.findAll();
-    }
-
-    // Agregar otros métodos según tus necesidades
-
+    // Agrega otros métodos según tus necesidades (actualización, eliminación, búsqueda, etc.)
 }
