@@ -1,9 +1,10 @@
 package com.example.demo.repositories;
 
-import com.example.demo.models.EjerciciosModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.models.RutinaModel;
+
 @Repository
-public interface EjerciciosRepository extends JpaRepository<EjerciciosModel, Long> {
+public interface RutinaRepository extends JpaRepository<RutinaModel, Long> {
 }

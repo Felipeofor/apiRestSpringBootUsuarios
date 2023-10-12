@@ -18,6 +18,10 @@ public class EjerciciosModel {
     private Long repeticiones;
     private String descripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "rutina_id")
+    private RutinaModel rutina;
+
     public String getTipo() {
         return tipo;
     }
@@ -54,7 +58,7 @@ public class EjerciciosModel {
         return repeticiones;
     }
 
-        public void setRepeticiones(Long repeticiones) {
+    public void setRepeticiones(Long repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -62,8 +66,12 @@ public class EjerciciosModel {
         return descripcion;
     }
 
-        public void setDescripcion(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
+
+    public void setRutina(RutinaModel rutina) {
+        this.rutina = rutina;
+    }
+
 }
