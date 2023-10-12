@@ -1,4 +1,7 @@
 package com.example.demo.models;
+import com.example.demo.models.RutinaModel;
+
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,8 +17,8 @@ public class EjerciciosModel {
 
     private String ejercicioName;
     private String tipo;
-    private Long series;
-    private Long repeticiones;
+    private int series;
+    private int repeticiones;
     private String descripcion;
 
     @ManyToOne
@@ -46,19 +49,19 @@ public class EjerciciosModel {
         this.ejercicioName = ejercicioName;
     }
 
-    public Long getSeries() {
+    public int getSeries() {
         return series;
     }
 
-    public void setSeries(Long series) {
+    public void setSeries(int series) {
         this.series = series;
     }
 
-    public Long getRepeticiones() {
+    public int getRepeticiones() {
         return repeticiones;
     }
 
-    public void setRepeticiones(Long repeticiones) {
+    public void setRepeticiones(int repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -71,7 +74,11 @@ public class EjerciciosModel {
     }
 
     public void setRutina(RutinaModel rutina) {
-        this.rutina = rutina;
+        this.rutina = rutina; // Asigna la rutina al ejercicio
+        if (rutina != null && !rutina.getEjercicios().contains(this)) {
+            rutina.getEjercicios().add(this); // Asegura que el ejercicio esté en la lista de ejercicios de la rutina
+        }
     }
+    
 
 }

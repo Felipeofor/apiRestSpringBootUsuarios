@@ -50,4 +50,14 @@ public class EjerciciosService {
             return false;
         }
     }
+
+    public EjerciciosModel guardarEjercicio(EjerciciosModel nuevoEjercicio) {
+        EjerciciosModel ejercicioGuardado = ejerciciosRepository.save(nuevoEjercicio);
+        return ejercicioGuardado;
+    }
+    
+    public EjerciciosModel crearEjercicio(EjerciciosModel nuevoEjercicio) {
+        return guardarEjercicio(nuevoEjercicio);
+    }
+    
 }

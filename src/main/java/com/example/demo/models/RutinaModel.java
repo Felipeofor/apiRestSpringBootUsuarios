@@ -1,6 +1,5 @@
 package com.example.demo.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -24,8 +23,9 @@ public class RutinaModel {
         this.imagen = imagen;
     }
 
-    @OneToMany(mappedBy = "rutina", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EjerciciosModel> ejercicios = new ArrayList<>();
+    @OneToMany(mappedBy = "rutina")
+private List<EjerciciosModel> ejercicios;
+
 
     public List<EjerciciosModel> getEjercicios() {
         return ejercicios;
