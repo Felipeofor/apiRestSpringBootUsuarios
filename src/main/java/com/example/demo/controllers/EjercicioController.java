@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.EjercicioModel;
+import com.example.demo.models.RutinaModel;
 import com.example.demo.repositories.EjercicioRepository;
+import com.example.demo.repositories.RutinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ public class EjercicioController {
 
     @Autowired
     private EjercicioRepository ejerciciosRepository;
+    @Autowired
+    private RutinaRepository rutinaRepository;
 
     @GetMapping
     public ResponseEntity<List<EjercicioModel>> getAllEjercicios() {
@@ -27,6 +31,21 @@ public class EjercicioController {
         Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
             return ResponseEntity.ok(ejercicioOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{rutinaId}")
+    public ResponseEntity<EjercicioModel> createEjercicioForRutina(@PathVariable Long rutinaId,
+            @RequestBody EjercicioModel ejercicio) {
+        Optional<RutinaModel> rutinaOptional = rutinaRepository.findById(rutinaId);
+
+        if (rutinaOptional.isPresent()) {
+            RutinaModel rutina = rutinaOptional.get();
+            ejercicio.setRutina(rutina); // Asigna la rutina al ejercicio
+            EjercicioModel createdEjercicio = ejerciciosRepository.save(ejercicio);
+            return ResponseEntity.ok(createdEjercicio);
         } else {
             return ResponseEntity.notFound().build();
         }

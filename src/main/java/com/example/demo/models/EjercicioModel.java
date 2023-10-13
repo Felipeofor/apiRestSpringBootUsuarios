@@ -71,6 +71,7 @@ public class EjercicioModel {
     }
 
     public void setRutina(RutinaModel rutina2) {
+        this.rutina = rutina2;
     }
 
 }

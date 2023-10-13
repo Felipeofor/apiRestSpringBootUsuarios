@@ -63,27 +63,6 @@ public class RutinaController {
         return new ResponseEntity<>(resultadoDto, HttpStatus.OK);
     }
 
-    @PostMapping("/rutina/{rutinaId}/ejercicios")
-    public ResponseEntity<EjercicioModel> createEjercicio(@PathVariable Long rutinaId,
-            @RequestBody EjercicioModel ejercicio) {
-        // Primero, obtén la rutina por su ID
-        Optional<RutinaModel> rutinaOptional = rutinaRepository.findById(rutinaId);
-
-        if (rutinaOptional.isPresent()) {
-            RutinaModel rutina = rutinaOptional.get();
-
-            // Asigna la rutina al ejercicio
-            ejercicio.setRutina(rutina);
-
-            // Luego, guarda el ejercicio
-            EjercicioModel createdEjercicio = ejercicioRepository.save(ejercicio);
-
-            return ResponseEntity.ok(createdEjercicio);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     private RutinaModel mapDtoToRutinaModel(RutinaDto rutinaDto) {
         RutinaModel rutinaModel = new RutinaModel();
         rutinaModel.setTitulo(rutinaDto.getTitulo());
