@@ -56,8 +56,6 @@ public class RutinaController {
         if (rutinaModel == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        // Mapea la entidad RutinaModel a un RutinaDto
         RutinaDto resultadoDto = mapRutinaModelToDtoConEjercicios(rutinaModel);
 
         return new ResponseEntity<>(resultadoDto, HttpStatus.OK);
@@ -67,11 +65,6 @@ public class RutinaController {
         RutinaModel rutinaModel = new RutinaModel();
         rutinaModel.setTitulo(rutinaDto.getTitulo());
         rutinaModel.setImagen(rutinaDto.getImagen());
-
-        // Si tienes una lista de ejercicios en el DTO, puedes mapearla a la entidad
-        // RutinaModel aquí.
-        // Por ejemplo, puedes iterar a través de los ejercicios en rutinaDto y
-        // agregarlos a la lista de ejercicios en rutinaModel.
 
         return rutinaModel;
     }
@@ -93,6 +86,7 @@ public class RutinaController {
         List<EjercicioDto> ejercicioDtos = new ArrayList<>();
         for (EjercicioModel ejercicioModel : rutinaModel.getEjercicios()) {
             EjercicioDto ejercicioDto = new EjercicioDto();
+            ejercicioDto.setId(ejercicioModel.getId());
             ejercicioDto.setDescripcion(ejercicioModel.getDescripcion());
             ejercicioDto.setEjercicioName(ejercicioModel.getEjercicioName());
             ejercicioDto.setRepeticiones(ejercicioModel.getRepeticiones());
@@ -102,5 +96,22 @@ public class RutinaController {
         rutinaDto.setEjercicios(ejercicioDtos);
 
         return rutinaDto;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRutina(@PathVariable Long id) {
+        Optional<RutinaModel> rutinaOptional = rutinaRepository.findById(id);
+        if (rutinaOptional.isPresent()) {
+            // Busca y elimina todos los ejercicios relacionados con la rutina
+            List<EjercicioModel> ejercicios = ejercicioRepository.findByRutina(rutinaOptional.get());
+            ejercicioRepository.deleteAll(ejercicios);
+
+            // Luego, elimina la rutina
+            rutinaRepository.deleteById(id);
+
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

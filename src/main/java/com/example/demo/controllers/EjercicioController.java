@@ -51,12 +51,6 @@ public class EjercicioController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<EjercicioModel> createEjercicio(@RequestBody EjercicioModel ejercicio) {
-        EjercicioModel createdEjercicio = ejerciciosRepository.save(ejercicio);
-        return ResponseEntity.ok(createdEjercicio);
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity<EjercicioModel> updateEjercicio(@PathVariable Long id,
             @RequestBody EjercicioModel updatedEjercicio) {
