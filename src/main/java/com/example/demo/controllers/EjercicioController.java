@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.models.EjerciciosModel;
-import com.example.demo.repositories.EjerciciosRepository;
+import com.example.demo.models.EjercicioModel;
+import com.example.demo.repositories.EjercicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +11,20 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/ejercicios")
-public class EjerciciosController {
+public class EjercicioController {
 
     @Autowired
-    private EjerciciosRepository ejerciciosRepository;
+    private EjercicioRepository ejerciciosRepository;
 
     @GetMapping
-    public ResponseEntity<List<EjerciciosModel>> getAllEjercicios() {
-        List<EjerciciosModel> ejercicios = ejerciciosRepository.findAll();
+    public ResponseEntity<List<EjercicioModel>> getAllEjercicios() {
+        List<EjercicioModel> ejercicios = ejerciciosRepository.findAll();
         return ResponseEntity.ok(ejercicios);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EjerciciosModel> getEjercicioById(@PathVariable Long id) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
+    public ResponseEntity<EjercicioModel> getEjercicioById(@PathVariable Long id) {
+        Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
             return ResponseEntity.ok(ejercicioOptional.get());
         } else {
@@ -33,22 +33,23 @@ public class EjerciciosController {
     }
 
     @PostMapping
-    public ResponseEntity<EjerciciosModel> createEjercicio(@RequestBody EjerciciosModel ejercicio) {
-        EjerciciosModel createdEjercicio = ejerciciosRepository.save(ejercicio);
+    public ResponseEntity<EjercicioModel> createEjercicio(@RequestBody EjercicioModel ejercicio) {
+        EjercicioModel createdEjercicio = ejerciciosRepository.save(ejercicio);
         return ResponseEntity.ok(createdEjercicio);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<EjerciciosModel> updateEjercicio(@PathVariable Long id, @RequestBody EjerciciosModel updatedEjercicio) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
+    public ResponseEntity<EjercicioModel> updateEjercicio(@PathVariable Long id,
+            @RequestBody EjercicioModel updatedEjercicio) {
+        Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
-            EjerciciosModel ejercicio = ejercicioOptional.get();
+            EjercicioModel ejercicio = ejercicioOptional.get();
             ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
             ejercicio.setTipo(updatedEjercicio.getTipo());
             ejercicio.setSeries(updatedEjercicio.getSeries());
             ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
             ejercicio.setDescripcion(updatedEjercicio.getDescripcion());
-            EjerciciosModel updatedEjercicioEntity = ejerciciosRepository.save(ejercicio);
+            EjercicioModel updatedEjercicioEntity = ejerciciosRepository.save(ejercicio);
             return ResponseEntity.ok(updatedEjercicioEntity);
         } else {
             return ResponseEntity.notFound().build();
@@ -57,7 +58,7 @@ public class EjerciciosController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEjercicio(@PathVariable Long id) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
+        Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
             ejerciciosRepository.deleteById(id);
             return ResponseEntity.noContent().build();

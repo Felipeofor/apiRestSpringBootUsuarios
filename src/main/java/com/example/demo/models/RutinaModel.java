@@ -5,15 +5,15 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rutina")
+@Table(name = "rutinas")
 public class RutinaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String titulo;
-
     private String imagen;
+    @OneToMany(mappedBy = "rutina")
+    private List<EjercicioModel> ejercicios;
 
     public String getImagen() {
         return imagen;
@@ -23,15 +23,11 @@ public class RutinaModel {
         this.imagen = imagen;
     }
 
-    @OneToMany(mappedBy = "rutina")
-private List<EjerciciosModel> ejercicios;
-
-
-    public List<EjerciciosModel> getEjercicios() {
+    public List<EjercicioModel> getEjercicios() {
         return ejercicios;
     }
 
-    public void setEjercicios(List<EjerciciosModel> ejercicios) {
+    public void setEjercicios(List<EjercicioModel> ejercicios) {
         this.ejercicios = ejercicios;
     }
 

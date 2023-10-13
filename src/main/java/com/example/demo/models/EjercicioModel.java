@@ -1,14 +1,11 @@
 package com.example.demo.models;
-import com.example.demo.models.RutinaModel;
-
-import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ejercicios")
 
-public class EjerciciosModel {
+public class EjercicioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,12 +70,7 @@ public class EjerciciosModel {
         this.descripcion = descripcion;
     }
 
-    public void setRutina(RutinaModel rutina) {
-        this.rutina = rutina; // Asigna la rutina al ejercicio
-        if (rutina != null && !rutina.getEjercicios().contains(this)) {
-            rutina.getEjercicios().add(this); // Asegura que el ejercicio esté en la lista de ejercicios de la rutina
-        }
+    public void setRutina(RutinaModel rutina2) {
     }
-    
 
 }

@@ -1,9 +1,9 @@
 package com.example.demo.repositories;
 
-import com.example.demo.models.EjerciciosModel;
+import com.example.demo.models.EjercicioModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EjerciciosRepository extends JpaRepository<EjerciciosModel, Long> {
+public interface EjercicioRepository extends JpaRepository<EjercicioModel, Long> {
 }

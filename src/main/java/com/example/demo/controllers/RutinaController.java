@@ -7,13 +7,15 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.EjercicioDto;
 import com.example.demo.dto.RutinaDto;
-import com.example.demo.models.EjerciciosModel;
+import com.example.demo.models.EjercicioModel;
 import com.example.demo.models.RutinaModel;
-import com.example.demo.services.EjerciciosService;
+import com.example.demo.repositories.EjercicioRepository;
+import com.example.demo.repositories.RutinaRepository;
 import com.example.demo.services.RutinaService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rutina")
@@ -21,7 +23,16 @@ public class RutinaController {
 
     @Autowired
     private RutinaService rutinaService;
-    private EjerciciosService ejercicioService;
+    @Autowired
+    private RutinaRepository rutinaRepository;
+    @Autowired
+    private EjercicioRepository ejercicioRepository;
+
+    @GetMapping
+    public ResponseEntity<List<RutinaModel>> getAllRutinas() {
+        List<RutinaModel> rutina = rutinaRepository.findAll();
+        return ResponseEntity.ok(rutina);
+    }
 
     @PostMapping("/crear")
     public ResponseEntity<RutinaDto> crearRutina(@RequestBody RutinaDto rutinaDto) {
@@ -52,57 +63,65 @@ public class RutinaController {
         return new ResponseEntity<>(resultadoDto, HttpStatus.OK);
     }
 
-    @PostMapping("/rutinas/{rutinaId}/agregarEjercicio")
-public ResponseEntity<RutinaModel> agregarEjercicioARutina(@PathVariable Long rutinaId, @RequestBody EjerciciosModel ejercicio) {
-    RutinaModel rutina = rutinaService.obtenerRutinaPorId(rutinaId);
-    if (rutina != null) {
-        EjerciciosModel nuevoEjercicio = ejercicioService.createEjercicio(ejercicio);
-        nuevoEjercicio.setRutina(rutina);
-        ejercicioService.guardarEjercicio(nuevoEjercicio);
-        return ResponseEntity.ok(rutina);
-    } else {
-        return ResponseEntity.notFound().build();
+    @PostMapping("/rutina/{rutinaId}/ejercicios")
+    public ResponseEntity<EjercicioModel> createEjercicio(@PathVariable Long rutinaId,
+            @RequestBody EjercicioModel ejercicio) {
+        // Primero, obtén la rutina por su ID
+        Optional<RutinaModel> rutinaOptional = rutinaRepository.findById(rutinaId);
+
+        if (rutinaOptional.isPresent()) {
+            RutinaModel rutina = rutinaOptional.get();
+
+            // Asigna la rutina al ejercicio
+            ejercicio.setRutina(rutina);
+
+            // Luego, guarda el ejercicio
+            EjercicioModel createdEjercicio = ejercicioRepository.save(ejercicio);
+
+            return ResponseEntity.ok(createdEjercicio);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
 
     private RutinaModel mapDtoToRutinaModel(RutinaDto rutinaDto) {
         RutinaModel rutinaModel = new RutinaModel();
         rutinaModel.setTitulo(rutinaDto.getTitulo());
         rutinaModel.setImagen(rutinaDto.getImagen());
-    
-        // Si tienes una lista de ejercicios en el DTO, puedes mapearla a la entidad RutinaModel aquí.
-        // Por ejemplo, puedes iterar a través de los ejercicios en rutinaDto y agregarlos a la lista de ejercicios en rutinaModel.
-    
+
+        // Si tienes una lista de ejercicios en el DTO, puedes mapearla a la entidad
+        // RutinaModel aquí.
+        // Por ejemplo, puedes iterar a través de los ejercicios en rutinaDto y
+        // agregarlos a la lista de ejercicios en rutinaModel.
+
         return rutinaModel;
     }
-    
+
     private RutinaDto mapRutinaModelToDto(RutinaModel rutinaModel) {
         RutinaDto rutinaDto = new RutinaDto();
         rutinaDto.setTitulo(rutinaModel.getTitulo());
         rutinaDto.setImagen(rutinaModel.getImagen());
-        
+
         return rutinaDto;
     }
-    
 
     private RutinaDto mapRutinaModelToDtoConEjercicios(RutinaModel rutinaModel) {
-    RutinaDto rutinaDto = new RutinaDto();
-    rutinaDto.setTitulo(rutinaModel.getTitulo());
-    rutinaDto.setImagen(rutinaModel.getImagen());
+        RutinaDto rutinaDto = new RutinaDto();
+        rutinaDto.setTitulo(rutinaModel.getTitulo());
+        rutinaDto.setImagen(rutinaModel.getImagen());
 
-    // Mapea los ejercicios asociados a la rutina
-    List<EjercicioDto> ejercicioDtos = new ArrayList<>();
-    for (EjerciciosModel ejercicioModel : rutinaModel.getEjercicios()) {
-        EjercicioDto ejercicioDto = new EjercicioDto();
-        ejercicioDto.setDescripcion(ejercicioModel.getDescripcion());
-        ejercicioDto.setEjercicioName(ejercicioModel.getEjercicioName());
-        ejercicioDto.setRepeticiones(ejercicioModel.getRepeticiones());
-        ejercicioDto.setSeries(ejercicioModel.getSeries());
-        ejercicioDtos.add(ejercicioDto);
+        // Mapea los ejercicios asociados a la rutina
+        List<EjercicioDto> ejercicioDtos = new ArrayList<>();
+        for (EjercicioModel ejercicioModel : rutinaModel.getEjercicios()) {
+            EjercicioDto ejercicioDto = new EjercicioDto();
+            ejercicioDto.setDescripcion(ejercicioModel.getDescripcion());
+            ejercicioDto.setEjercicioName(ejercicioModel.getEjercicioName());
+            ejercicioDto.setRepeticiones(ejercicioModel.getRepeticiones());
+            ejercicioDto.setSeries(ejercicioModel.getSeries());
+            ejercicioDtos.add(ejercicioDto);
+        }
+        rutinaDto.setEjercicios(ejercicioDtos);
+
+        return rutinaDto;
     }
-    rutinaDto.setEjercicios(ejercicioDtos);
-
-    return rutinaDto;
 }
-}
-

@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.models.EjerciciosModel;
+import com.example.demo.models.EjercicioModel;
 import com.example.demo.models.RutinaModel;
-import com.example.demo.repositories.EjerciciosRepository;
+import com.example.demo.repositories.EjercicioRepository;
 import com.example.demo.repositories.RutinaRepository;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ public class RutinaService {
     private RutinaRepository rutinaRepository;
 
     @Autowired
-    private EjerciciosRepository ejerciciosRepository;
+    private EjercicioRepository ejerciciosRepository;
 
     @Transactional
     public RutinaModel crearRutina(RutinaModel rutinaModel) {
@@ -31,11 +31,10 @@ public class RutinaService {
     }
 
     @Transactional
-    public RutinaModel agregarEjercicioARutina(Long rutinaId, EjerciciosModel ejercicio) {
+    public RutinaModel agregarEjercicioARutina(Long rutinaId, EjercicioModel ejercicio) {
         RutinaModel rutina = rutinaRepository.findById(rutinaId).orElse(null);
 
         if (rutina != null) {
-            ejercicio.setRutina(rutina);
             ejerciciosRepository.save(ejercicio);
             rutina.getEjercicios().add(ejercicio);
             rutinaRepository.save(rutina);
@@ -46,7 +45,8 @@ public class RutinaService {
 
     @Transactional
     public RutinaModel actualizarRutina(RutinaModel rutinaModel) {
-        // Puedes agregar lógica adicional antes de actualizar la rutina, si es necesario
+        // Puedes agregar lógica adicional antes de actualizar la rutina, si es
+        // necesario
         return rutinaRepository.save(rutinaModel);
     }
 
