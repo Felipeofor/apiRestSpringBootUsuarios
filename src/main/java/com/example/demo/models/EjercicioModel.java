@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ejercicios")
 
-public class EjerciciosModel {
+public class EjercicioModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +14,13 @@ public class EjerciciosModel {
 
     private String ejercicioName;
     private String tipo;
-    private Long series;
-    private Long repeticiones;
+    private int series;
+    private int repeticiones;
     private String descripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "rutina_id")
+    private RutinaModel rutina;
 
     public String getTipo() {
         return tipo;
@@ -42,19 +46,19 @@ public class EjerciciosModel {
         this.ejercicioName = ejercicioName;
     }
 
-    public Long getSeries() {
+    public int getSeries() {
         return series;
     }
 
-    public void setSeries(Long series) {
+    public void setSeries(int series) {
         this.series = series;
     }
 
-    public Long getRepeticiones() {
+    public int getRepeticiones() {
         return repeticiones;
     }
 
-        public void setRepeticiones(Long repeticiones) {
+    public void setRepeticiones(int repeticiones) {
         this.repeticiones = repeticiones;
     }
 
@@ -62,8 +66,12 @@ public class EjerciciosModel {
         return descripcion;
     }
 
-        public void setDescripcion(String descripcion) {
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
+
+    public void setRutina(RutinaModel rutina2) {
+        this.rutina = rutina2;
+    }
+
 }

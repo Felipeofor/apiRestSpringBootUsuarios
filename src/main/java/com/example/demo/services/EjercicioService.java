@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.models.EjerciciosModel;
-import com.example.demo.repositories.EjerciciosRepository;
+import com.example.demo.models.EjercicioModel;
+import com.example.demo.repositories.EjercicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,27 +9,27 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EjerciciosService {
+public class EjercicioService {
 
     @Autowired
-    private EjerciciosRepository ejerciciosRepository;
+    private EjercicioRepository ejerciciosRepository;
 
-    public List<EjerciciosModel> getAllEjercicios() {
+    public List<EjercicioModel> getAllEjercicios() {
         return ejerciciosRepository.findAll();
     }
 
-    public Optional<EjerciciosModel> getEjercicioById(Long id) {
+    public Optional<EjercicioModel> getEjercicioById(Long id) {
         return ejerciciosRepository.findById(id);
     }
 
-    public EjerciciosModel createEjercicio(EjerciciosModel ejercicio) {
+    public EjercicioModel createEjercicio(EjercicioModel ejercicio) {
         return ejerciciosRepository.save(ejercicio);
     }
 
-    public Optional<EjerciciosModel> updateEjercicio(Long id, EjerciciosModel updatedEjercicio) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
+    public Optional<EjercicioModel> updateEjercicio(Long id, EjercicioModel updatedEjercicio) {
+        Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
-            EjerciciosModel ejercicio = ejercicioOptional.get();
+            EjercicioModel ejercicio = ejercicioOptional.get();
             ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
             ejercicio.setTipo(updatedEjercicio.getTipo());
             ejercicio.setSeries(updatedEjercicio.getSeries());
@@ -42,7 +42,7 @@ public class EjerciciosService {
     }
 
     public boolean deleteEjercicio(Long id) {
-        Optional<EjerciciosModel> ejercicioOptional = ejerciciosRepository.findById(id);
+        Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
             ejerciciosRepository.deleteById(id);
             return true;
@@ -50,4 +50,14 @@ public class EjerciciosService {
             return false;
         }
     }
+
+    public EjercicioModel guardarEjercicio(EjercicioModel nuevoEjercicio) {
+        EjercicioModel ejercicioGuardado = ejerciciosRepository.save(nuevoEjercicio);
+        return ejercicioGuardado;
+    }
+
+    public EjercicioModel crearEjercicio(EjercicioModel nuevoEjercicio) {
+        return guardarEjercicio(nuevoEjercicio);
+    }
+
 }
