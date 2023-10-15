@@ -1,8 +1,5 @@
 package com.example.demo.models;
 
-import javax.persistence.Entity;
-
-@Entity
 public class ApiResponse {
     private String message;
     private int status;

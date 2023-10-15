@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.example.demo.models.ApiResponse;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.services.UsuarioService;
+import com.google.gson.Gson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class UsuarioController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(produces = "application/json")
-    public ResponseEntity<ApiResponse> loginUser(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<String> loginUser(@RequestBody UsuarioModel usuario) {
         String email = usuario.getEmail();
         String password = usuario.getPassword();
 
@@ -34,19 +35,22 @@ public class UsuarioController {
         UsuarioModel usuarioExistente = usuarioService.findByEmail(email);
 
         if (usuarioExistente == null) {
+            ApiResponse response = new ApiResponse("El correo electrónico o contraseña no existe.",
+                    HttpStatus.NOT_FOUND.value());
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new ApiResponse("El correo electrónico o contraseña no existe.",
-                            HttpStatus.NOT_FOUND.value()));
+                    .body(new Gson().toJson(response)); // Convierte el objeto ApiResponse a JSON
         }
 
         if (!usuarioExistente.getPassword().equals(password)) {
+            ApiResponse response = new ApiResponse("El correo electrónico o contraseña no coincide.",
+                    HttpStatus.UNAUTHORIZED.value());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(new ApiResponse("El correo electrónico o contraseña no coincide.",
-                            HttpStatus.UNAUTHORIZED.value()));
+                    .body(new Gson().toJson(response)); // Convierte el objeto ApiResponse a JSON
         }
 
+        ApiResponse response = new ApiResponse("Inicio de sesión exitoso", HttpStatus.OK.value());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ApiResponse("Inicio de sesión exitoso", HttpStatus.OK.value()));
+                .body(new Gson().toJson(response)); // Convierte el objeto ApiResponse a JSON
     }
 
     @CrossOrigin(origins = "*")
