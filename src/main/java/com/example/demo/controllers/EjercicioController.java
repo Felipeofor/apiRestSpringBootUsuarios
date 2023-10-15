@@ -31,12 +31,17 @@ public class EjercicioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EjercicioModel> getEjercicioById(@PathVariable Long id) {
+    public ResponseEntity<String> getEjercicioById(@PathVariable Long id) {
         Optional<EjercicioModel> ejercicioOptional = ejerciciosRepository.findById(id);
         if (ejercicioOptional.isPresent()) {
-            return ResponseEntity.ok(ejercicioOptional.get());
+            ApiResponse response = new ApiResponse("Ejercicio actualizado con exito", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new Gson().toJson(response));
         } else {
-            return ResponseEntity.notFound().build();
+            ApiResponse response = new ApiResponse("El ejercicio no pudo ser actualizado.",
+                    HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new Gson().toJson(response));
         }
     }
 
