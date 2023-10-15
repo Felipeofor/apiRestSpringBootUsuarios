@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.example.demo.models.ApiResponse;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.services.UsuarioService;
 
@@ -24,8 +25,8 @@ public class UsuarioController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping()
-    public ResponseEntity<String> loginUser(@RequestBody UsuarioModel usuario) {
+    @PostMapping(produces = "application/json")
+    public ResponseEntity<ApiResponse> loginUser(@RequestBody UsuarioModel usuario) {
         String email = usuario.getEmail();
         String password = usuario.getPassword();
 
@@ -33,21 +34,19 @@ public class UsuarioController {
         UsuarioModel usuarioExistente = usuarioService.findByEmail(email);
 
         if (usuarioExistente == null) {
-            // Si el usuario no se encuentra, devuelve una respuesta de error
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("El correo electrónico o contraseña no existe.");
+                    .body(new ApiResponse("El correo electrónico o contraseña no existe.",
+                            HttpStatus.NOT_FOUND.value()));
         }
 
-        // Verificar la contraseña
         if (!usuarioExistente.getPassword().equals(password)) {
-            // Si la contraseña no coincide, devuelve una respuesta de error
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("El correo electrónico o contraseña no existe.");
+                    .body(new ApiResponse("El correo electrónico o contraseña no coincide.",
+                            HttpStatus.UNAUTHORIZED.value()));
         }
 
-        // Si la autenticación es exitosa, devuelve una respuesta de éxito
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Inicio de sesión exitoso");
+                .body(new ApiResponse("Inicio de sesión exitoso", HttpStatus.OK.value()));
     }
 
     @CrossOrigin(origins = "*")
