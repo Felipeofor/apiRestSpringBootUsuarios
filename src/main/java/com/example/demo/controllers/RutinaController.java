@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.EjercicioDto;
 import com.example.demo.dto.RutinaDto;
+import com.example.demo.models.ApiResponse;
 import com.example.demo.models.EjercicioModel;
+import com.example.demo.models.RutinaInfo;
 import com.example.demo.models.RutinaModel;
 import com.example.demo.repositories.EjercicioRepository;
 import com.example.demo.repositories.RutinaRepository;
 import com.example.demo.services.RutinaService;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,21 @@ public class RutinaController {
     public ResponseEntity<List<RutinaModel>> getAllRutinas() {
         List<RutinaModel> rutina = rutinaRepository.findAll();
         return ResponseEntity.ok(rutina);
+    }
+
+    @GetMapping("/nombres-con-ids")
+    public ResponseEntity<List<RutinaInfo>> getAllRutinaNamesWithIds() {
+        List<RutinaModel> rutinas = rutinaRepository.findAll();
+        List<RutinaInfo> rutinaInfoList = new ArrayList<>();
+
+        for (RutinaModel rutina : rutinas) {
+            RutinaInfo rutinaInfo = new RutinaInfo();
+            rutinaInfo.setId(rutina.getId());
+            rutinaInfo.setTitulo(rutina.getTitulo());
+            rutinaInfoList.add(rutinaInfo);
+        }
+
+        return ResponseEntity.ok(rutinaInfoList);
     }
 
     @PostMapping("/crear")
@@ -99,19 +117,22 @@ public class RutinaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRutina(@PathVariable Long id) {
+    public ResponseEntity<String> deleteRutina(@PathVariable Long id) {
         Optional<RutinaModel> rutinaOptional = rutinaRepository.findById(id);
         if (rutinaOptional.isPresent()) {
-            // Busca y elimina todos los ejercicios relacionados con la rutina
+
             List<EjercicioModel> ejercicios = ejercicioRepository.findByRutina(rutinaOptional.get());
             ejercicioRepository.deleteAll(ejercicios);
 
-            // Luego, elimina la rutina
             rutinaRepository.deleteById(id);
-
-            return ResponseEntity.noContent().build();
+            ApiResponse response = new ApiResponse("Rutina eliminada con exito", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new Gson().toJson(response));
         } else {
-            return ResponseEntity.notFound().build();
+            ApiResponse response = new ApiResponse("No se pudo eliminar la rutina.",
+                    HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new Gson().toJson(response));
         }
     }
 }

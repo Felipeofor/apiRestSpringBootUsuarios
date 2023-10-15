@@ -38,4 +38,8 @@ public class RutinaModel {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
