@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @CrossOrigin(origins = "*")
-    @PostMapping()
+    @PostMapping(produces = "application/json")
     public ResponseEntity<String> loginUser(@RequestBody UsuarioModel usuario) {
         String email = usuario.getEmail();
         String password = usuario.getPassword();
@@ -33,21 +33,17 @@ public class UsuarioController {
         UsuarioModel usuarioExistente = usuarioService.findByEmail(email);
 
         if (usuarioExistente == null) {
-            // Si el usuario no se encuentra, devuelve una respuesta de error
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("El correo electrónico o contraseña no existe.");
+                    .body("{\"message\": \"El correo electrónico o contraseña no existe.\"}");
         }
 
-        // Verificar la contraseña
         if (!usuarioExistente.getPassword().equals(password)) {
-            // Si la contraseña no coincide, devuelve una respuesta de error
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("El correo electrónico o contraseña no existe.");
+                    .body("{\"message\": \"El correo electrónico o contraseña no coincide.\"}");
         }
 
-        // Si la autenticación es exitosa, devuelve una respuesta de éxito
         return ResponseEntity.status(HttpStatus.OK)
-                .body("Inicio de sesión exitoso");
+                .body("{\"message\": \"Inicio de sesión exitoso\"}");
     }
 
     @CrossOrigin(origins = "*")
