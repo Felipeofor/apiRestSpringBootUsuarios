@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.example.demo.models.ApiResponse;
 import com.example.demo.models.UsuarioModel;
 import com.example.demo.services.UsuarioService;
 
@@ -25,7 +26,7 @@ public class UsuarioController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(produces = "application/json")
-    public ResponseEntity<String> loginUser(@RequestBody UsuarioModel usuario) {
+    public ResponseEntity<ApiResponse> loginUser(@RequestBody UsuarioModel usuario) {
         String email = usuario.getEmail();
         String password = usuario.getPassword();
 
@@ -34,16 +35,18 @@ public class UsuarioController {
 
         if (usuarioExistente == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"message\": \"El correo electrónico o contraseña no existe.\"}");
+                    .body(new ApiResponse("El correo electrónico o contraseña no existe.",
+                            HttpStatus.NOT_FOUND.value()));
         }
 
         if (!usuarioExistente.getPassword().equals(password)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("{\"message\": \"El correo electrónico o contraseña no coincide.\"}");
+                    .body(new ApiResponse("El correo electrónico o contraseña no coincide.",
+                            HttpStatus.UNAUTHORIZED.value()));
         }
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body("{\"message\": \"Inicio de sesión exitoso\"}");
+                .body(new ApiResponse("Inicio de sesión exitoso", HttpStatus.OK.value()));
     }
 
     @CrossOrigin(origins = "*")
