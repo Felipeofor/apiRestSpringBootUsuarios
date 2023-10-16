@@ -2,6 +2,9 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.ClienteModel;
 import com.example.demo.services.ClienteService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,11 +14,8 @@ import java.util.Map;
 @RequestMapping("/clientes")
 public class ClienteController {
 
-    private final ClienteService clienteService;
-
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
+    @Autowired
+    private ClienteService clienteService;
 
     @GetMapping()
     public List<ClienteModel> getAllClientes() {
@@ -28,12 +28,12 @@ public class ClienteController {
     }
 
     @PostMapping()
-    public ClienteModel createCliente(@RequestBody ClienteModel cliente) {
+    public ResponseEntity<String> createCliente(@RequestBody ClienteModel cliente) {
         return clienteService.createCliente(cliente);
     }
 
     @PatchMapping("/{id}")
-    public ClienteModel updateCliente(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<String> updateCliente(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
         return clienteService.patchCliente(id, updates);
     }
 

@@ -80,9 +80,6 @@ public class UsuarioController {
 
     // Función para verificar el formato del correo electrónico
     private boolean isValidEmail(String email) {
-        // Utiliza una expresión regular para verificar el formato del correo
-        // electrónico
-        // Esta es una expresión regular simple y puede ser necesario ajustarla
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return email.matches(regex);
     }
@@ -93,12 +90,17 @@ public class UsuarioController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public String eliminarPorId(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarPorId(@PathVariable Long id) {
         boolean ok = this.usuarioService.eliminarUsuario(id);
         if (ok) {
-            return "Se eliminó el usuario con id " + id;
+            ApiResponse response = new ApiResponse("Usuario eliminado con éxito", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new Gson().toJson(response));
         } else {
-            return "No pudo eliminar el usuario con id" + id;
+            ApiResponse response = new ApiResponse("No se pudo eliminar el usuario.",
+                    HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new Gson().toJson(response));
         }
     }
 

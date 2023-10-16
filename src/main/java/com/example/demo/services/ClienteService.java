@@ -1,7 +1,12 @@
 package com.example.demo.services;
 
+import com.example.demo.models.ApiResponse;
 import com.example.demo.models.ClienteModel;
 import com.example.demo.repositories.ClienteRepository;
+import com.google.gson.Gson;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -33,11 +38,14 @@ public class ClienteService {
         }
     }
 
-    public ClienteModel createCliente(ClienteModel cliente) {
-        return clienteRepository.save(cliente);
+    public ResponseEntity<String> createCliente(ClienteModel cliente) {
+        clienteRepository.save(cliente);
+        ApiResponse response = new ApiResponse("Cliente actualizado con exito", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Gson().toJson(response));
     }
 
-    public ClienteModel patchCliente(Long id, Map<String, Object> updates) {
+    public ResponseEntity<String> patchCliente(Long id, Map<String, Object> updates) {
         ClienteModel cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
 
@@ -45,8 +53,6 @@ public class ClienteService {
             String key = entry.getKey();
             Object value = entry.getValue();
 
-            // Actualizar el cliente según los campos proporcionados en el mapa de
-            // actualizaciones
             switch (key) {
                 case "fullName":
                     cliente.setFullName((String) value);
@@ -103,15 +109,23 @@ public class ClienteService {
             }
         }
 
-        return clienteRepository.save(cliente);
+        clienteRepository.save(cliente);
+        ApiResponse response = new ApiResponse("Cliente actualizado con exito", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new Gson().toJson(response));
     }
 
-    public void deleteCliente(Long id) {
+    public ResponseEntity<String> deleteCliente(Long id) {
         if (clienteRepository.existsById(id)) {
             clienteRepository.deleteById(id);
+            ApiResponse response = new ApiResponse("Cliente eliminado con exito", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new Gson().toJson(response));
         } else {
-            // Manejar la excepción de cliente no encontrado
-            throw new RuntimeException("Cliente no encontrado con ID: " + id);
+            ApiResponse response = new ApiResponse("No se pudo eliminar el cliente.",
+                    HttpStatus.NOT_FOUND.value());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new Gson().toJson(response));
         }
     }
 }

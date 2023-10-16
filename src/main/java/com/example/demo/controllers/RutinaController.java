@@ -37,7 +37,7 @@ public class RutinaController {
         return ResponseEntity.ok(rutina);
     }
 
-    @GetMapping("/nombres-con-ids")
+    @GetMapping("/catalog")
     public ResponseEntity<List<RutinaInfo>> getAllRutinaNamesWithIds() {
         List<RutinaModel> rutinas = rutinaRepository.findAll();
         List<RutinaInfo> rutinaInfoList = new ArrayList<>();
