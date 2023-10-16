@@ -13,7 +13,7 @@ public class EjercicioModel {
     private Long id;
 
     private String ejercicioName;
-    private String tipo;
+    private String rutinaName;
     private int series;
     private int repeticiones;
     private String descripcion;
@@ -22,12 +22,12 @@ public class EjercicioModel {
     @JoinColumn(name = "rutina_id")
     private RutinaModel rutina;
 
-    public String getTipo() {
-        return tipo;
+    public String getRutinaName() {
+        return rutinaName;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setRutinaName(String rutinaName) {
+        this.rutinaName = rutinaName;
     }
 
     public Long getId() {

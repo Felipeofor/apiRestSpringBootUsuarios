@@ -53,6 +53,7 @@ public class EjercicioController {
         if (rutinaOptional.isPresent()) {
             RutinaModel rutina = rutinaOptional.get();
             ejercicio.setRutina(rutina);
+            ejercicio.setRutinaName(rutina.getTitulo());
             ejerciciosRepository.save(ejercicio);
             ApiResponse response = new ApiResponse("Ejercicio creado con exito", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK)
@@ -72,7 +73,7 @@ public class EjercicioController {
         if (ejercicioOptional.isPresent()) {
             EjercicioModel ejercicio = ejercicioOptional.get();
             ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
-            ejercicio.setTipo(updatedEjercicio.getTipo());
+            ejercicio.setRutinaName(updatedEjercicio.getRutinaName());
             ejercicio.setSeries(updatedEjercicio.getSeries());
             ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
             ejercicio.setDescripcion(updatedEjercicio.getDescripcion());
