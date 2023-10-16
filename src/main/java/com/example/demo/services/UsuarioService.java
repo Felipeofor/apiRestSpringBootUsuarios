@@ -43,8 +43,8 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    public UsuarioModel findByUsername(String username) {
-        return usuarioRepository.findByUserName(username);
+    public UsuarioModel findByUserName(String userName) {
+        return usuarioRepository.findByUserName(userName);
     }
 
     public UsuarioModel findByPassword(String password) {

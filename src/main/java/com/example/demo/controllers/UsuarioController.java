@@ -66,7 +66,7 @@ public class UsuarioController {
         }
 
         // Verificar si el nombre de usuario ya está en uso
-        if (usuarioService.findByUsername(usuario.getUsername()) != null) {
+        if (usuarioService.findByUserName(usuario.getUserName()) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("El nombre de usuario ya está en uso.");
         }
