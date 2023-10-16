@@ -31,7 +31,7 @@ public class EjercicioService {
         if (ejercicioOptional.isPresent()) {
             EjercicioModel ejercicio = ejercicioOptional.get();
             ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
-            ejercicio.setTipo(updatedEjercicio.getTipo());
+            ejercicio.setRutinaName(updatedEjercicio.getRutinaName());
             ejercicio.setSeries(updatedEjercicio.getSeries());
             ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
             ejercicio.setDescripcion(updatedEjercicio.getDescripcion());
