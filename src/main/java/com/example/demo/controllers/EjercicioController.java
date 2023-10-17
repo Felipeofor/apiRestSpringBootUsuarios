@@ -73,12 +73,11 @@ public class EjercicioController {
         if (ejercicioOptional.isPresent()) {
             EjercicioModel ejercicio = ejercicioOptional.get();
             ejercicio.setEjercicioName(updatedEjercicio.getEjercicioName());
-            ejercicio.setRutinaName(updatedEjercicio.getRutinaName());
             ejercicio.setSeries(updatedEjercicio.getSeries());
             ejercicio.setRepeticiones(updatedEjercicio.getRepeticiones());
             ejercicio.setDescripcion(updatedEjercicio.getDescripcion());
             ejerciciosRepository.save(ejercicio);
-            ApiResponse response = new ApiResponse("Ejercicio actualizado con exito", HttpStatus.OK.value());
+            ApiResponse response = new ApiResponse("Ejercicio actualizado con éxito", HttpStatus.OK.value());
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new Gson().toJson(response));
         } else {
