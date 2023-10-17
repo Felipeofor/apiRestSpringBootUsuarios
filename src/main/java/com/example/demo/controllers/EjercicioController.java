@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/ejercicios")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EjercicioController {
 
     @Autowired
